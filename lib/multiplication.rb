@@ -1,8 +1,7 @@
-
 class Multiplication
-  def initialize(table_size)
-    @table_size = table_size
-    if valid?
+  def initialize(table_size_str)
+    if table_size_str =~ /\d+/
+      @table_size = table_size_str.to_i
       @vector = vector
       build_matrix
     else
@@ -19,10 +18,6 @@ class Multiplication
     (2..Math.sqrt(num)).each do |i|
       return false if (num % i).zero?
     end
-  end
-
-  def valid?
-    @table_size&.class == Fixnum
   end
 
   def build_matrix

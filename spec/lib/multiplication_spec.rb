@@ -3,7 +3,7 @@ require 'multiplication'
 describe Multiplication do
   describe '.build_matrix' do
     subject do
-      multiplication = described_class.new(num)
+      multiplication = described_class.new(num.to_s)
       multiplication.instance_variable_set('@table_size', num)
       multiplication.send(:build_matrix)
     end
@@ -31,17 +31,17 @@ describe Multiplication do
       let(:num) { 3 }
 
       it {
-        is_expected.to eq [[nil, 2,  3,  5],
+        is_expected.to eq [[nil, 2,  3, 5],
                            [2,   4,  6, 10],
                            [3,   6,  9, 15],
-                           [5,  10, 15, 25]]
+                           [5, 10, 15, 25]]
       }
     end
   end
 
   describe '.vector' do
     subject do
-      multiplication = described_class.new(num)
+      multiplication = described_class.new(num.to_s)
       multiplication.instance_variable_set('@table_size', num)
       multiplication.send(:vector)
     end
@@ -65,34 +65,34 @@ describe Multiplication do
     end
   end
 
-  describe '.valid?' do
+  describe 'validation' do
     subject do
-      multiplication = described_class.new(num)
+      multiplication = described_class.new(num.to_s)
       multiplication.instance_variable_set('@table_size', num)
-      multiplication.send(:valid?)
+      multiplication.instance_variable_get('@matrix')
     end
 
-    context 'is true when table_size is a number' do
-      let(:num) { 5 }
+    context 'is calculated 2D arrey when input is a number' do
+      let(:num) { 2 }
 
-      it { is_expected.to be_truthy }
+      it { is_expected.to eq [[nil, 2, 3], [2, 4, 6], [3, 6, 9]] }
     end
 
-    context 'is false when table_size is nil' do
+    context 'is first 10 prime numbers if input is nil' do
       let(:num) { nil }
 
-      it { is_expected.to be_falsey }
+      it { is_expected.to eq [2, 3, 5, 7, 11, 13, 17, 19, 23, 29] }
     end
 
-    context 'is false when table_sie is not a number' do
+    context 'is first 10 prime numbers when input is not a number' do
       let(:num) { 'La La Land' }
 
-      it { is_expected.to be_falsey }
+      it { is_expected.to eq [2, 3, 5, 7, 11, 13, 17, 19, 23, 29] }
     end
   end
 
   describe '.prime?' do
-    subject { described_class.new(10).send(:prime?, num) }
+    subject { described_class.new('1').send(:prime?, num) }
 
     context 'for number less or equal to 1' do
       let(:num) { 1 }
