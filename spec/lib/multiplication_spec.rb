@@ -34,7 +34,7 @@ describe Multiplication do
         is_expected.to eq [[nil, 2,  3, 5],
                            [2,   4,  6, 10],
                            [3,   6,  9, 15],
-                           [5, 10, 15, 25]]
+                           [5,  10, 15, 25]]
       }
     end
   end
@@ -120,6 +120,42 @@ describe Multiplication do
 
     context 'for bigger, not prime number like 10000' do
       let(:num) { 10_000 }
+
+      it { is_expected.to be_falsey }
+    end
+  end
+
+  describe '.display' do
+    it 'with valid input calls puts with array of strings' do
+      multiplication = described_class.new('1')
+      expect(multiplication).to receive(:puts).once
+                                              .with(['     2', '  2  4'])
+      multiplication.display
+    end
+
+    it 'with valid input calls puts with string' do
+      multiplication = described_class.new('La La')
+      expect(multiplication).to receive(:puts).once
+                                              .with('2 3 5 7 11 13 17 19 23 29')
+      multiplication.display
+    end
+  end
+
+  describe '.default_output?' do
+    subject do
+      multiplication = described_class.new('1')
+      multiplication.instance_variable_set('@matrix', arr)
+      multiplication.send(:default_output?)
+    end
+
+    context 'when matrix is a vector' do
+      let(:arr) { ['La La Land'] }
+
+      it { is_expected.to be_truthy }
+    end
+
+    context 'when matrix is 2D array' do
+      let(:arr) { [[nil, 2], [3, 4]] }
 
       it { is_expected.to be_falsey }
     end

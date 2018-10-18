@@ -10,6 +10,15 @@ class Multiplication
     end
   end
 
+  def display
+    if default_output?
+      puts @matrix.join(' ')
+    else
+      width = @matrix.flatten.compact.max.to_s.size + 2
+      puts @matrix.map { |row| row.map { |elem| elem.to_s.rjust(width) }.join }
+    end
+  end
+
   private
 
   def prime?(num)
@@ -48,5 +57,9 @@ class Multiplication
     @matrix[0].each_with_index do |elem, idx|
       @matrix[idx][0] = elem
     end
+  end
+
+  def default_output?
+    !@matrix[0].is_a? Array
   end
 end
